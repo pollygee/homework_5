@@ -1,10 +1,10 @@
 require './blackjack'
 require 'minitest/autorun'
 require 'pry'
+require './hand.rb'
  
 class TestCard < Minitest::Test
   def test_number_card_value
-    #binding.pry
     2.upto(10) do |x|
       card = Card.new(x, :S)
       assert_equal card.value, x
@@ -40,7 +40,6 @@ class TestDeck < Minitest::Test
     deck = Deck.new
     drawn_card = deck.draw
     assert_equal deck.cards.count, 51
-    binding.pry
     refute_includes deck.cards, drawn_card
     assert_includes deck.drawn, drawn_card
   end
