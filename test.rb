@@ -86,6 +86,7 @@ class TestHand < Minitest::Test
     hand = Hand.new
     hand.add(Card.new(:A, :H), Card.new(:K, :S))
     hand.add(Card.new(5, :S))
+    #binding.pry
     assert_equal hand.to_s, 'AH, KS, 5S'
   end
 end

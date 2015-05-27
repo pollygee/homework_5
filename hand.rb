@@ -34,10 +34,13 @@ class Hand
   end
 
   def to_s
-    binding.pry
-    cards.each do |card|
-      
+    display_cards = []
+    @hand_cards.each do |card|
+      #binding.pry
+      display_cards << card.card_as_string
     end
+    #binding.pry
+    return display_cards.join(", ")
   end
 end
 

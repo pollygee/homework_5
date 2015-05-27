@@ -9,5 +9,9 @@ class Card
     @VALUES[@rank]
   end
 
-  
+  def card_as_string
+    "#{@rank}#{@suit}"
+  end
+
+
 end
