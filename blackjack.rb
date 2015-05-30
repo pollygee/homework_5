@@ -8,7 +8,7 @@ require 'pry'
 
 class Blackjack
   def initialize
-
+    @hand_over = false
   end
 
   def deal_card which_player
@@ -16,6 +16,7 @@ class Blackjack
   end
 
   def start_game
+    system "clear"
     print "Ready to play some blackjack? (y or n) > "
     @wants_to_play = gets.chomp.downcase
     print "What is player's name? > "
@@ -28,8 +29,9 @@ class Blackjack
     @game_deck = Deck.new #returns a shuffled deck ready for the game
   end
 
-  def play_game
+  def play_hand
     while @wants_to_play == 'y'
+      @winner = 'none'
       #deal the cards
       @player_hand = @player.new_hand
       @dealer_hand = @dealer.new_hand
@@ -38,24 +40,53 @@ class Blackjack
       deal_card @dealer
       deal_card @dealer
 
-      #display the cards
-      puts "Player cards are : #{@player.show_hand}"
-      puts "Dealer showing card is: #{@dealer.show_hand}"
+      if @player.show_value == 21
+        @winner = @player
+      elsif @dealer.show_value == 21
+        @winner = @dealer
+      end
 
+      loop do
+        system("clear")
+        puts "Player cards are : #{@player.show_hand}\n"
+        puts "Dealer showing card is: #{@dealer.show_hand} \n\n"
+        print "Do you want to hit? (y or n)  > "
+        hit = gets.chomp.downcase
+        break if hit == 'n'
+        deal_card @player
+        if @player.busted?
+          puts "#{@player.name} has busted"
+          @winner = @dealer
+          break
+        end
+      end
 
+      loop do
+        if @dealer.play_turn == 'hit'
+          deal_card @dealer
+        end
+        if @dealer.busted?
+          "#{@dealer.name} has busted"
+          @winner = @player
+        end
+        break if @dealer.done
+        
+      end
+
+      if @player.show_value > @dealer.show_value
+        @winner = @player
+      else
+        @winner = @dealer
+      end
+
+      puts "Winner is #{@winner.name}"
       print "Do you want to play another hand? (y or n) > "
       @wants_to_play = gets.chomp.downcase
+
     end
     puts "Blackjack Game over!  Thanks for playing!"
   end
 
-  def switch_player
-    
-  end
-
-  def hand_over?
-    
-  end
 
 end
 
@@ -63,7 +94,7 @@ end
 
 game = Blackjack.new 
 game.start_game
-game.play_game
+game.play_hand
 
 
 

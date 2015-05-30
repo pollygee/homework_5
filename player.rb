@@ -1,7 +1,7 @@
 require './hand.rb'
 
 class Player
-  attr_reader :hand
+  attr_reader :hand, :name
   def initialize name
     @name = name
     @hand = []
@@ -15,8 +15,17 @@ class Player
     @hand.add card
   end
 
+  def show_value
+    @hand.value
+  end
+
   def show_hand
     @hand.display_hand
   end
+
+  def busted?
+    @hand.busted?
+  end
+
 
 end
