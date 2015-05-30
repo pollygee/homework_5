@@ -12,12 +12,8 @@ class Dealer < Player
      @hand.first_card.display_card
   end
 
-  def play_turn
-    if @hand.value < 18
-      return 'hit'
-    else
-      @done = true
-    end
+  def hit?
+    @hand.value < 18
   end
 
 end

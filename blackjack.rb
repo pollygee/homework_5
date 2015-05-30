@@ -40,46 +40,56 @@ class Blackjack
       deal_card @dealer
       deal_card @dealer
 
-      if @player.show_value == 21
+      if @player.hand.blackjack? 
         @winner = @player
-      elsif @dealer.show_value == 21
+      elsif @dealer.hand.blackjack?
         @winner = @dealer
       end
 
       loop do
         system("clear")
-        puts "Player cards are : #{@player.show_hand}\n"
+        puts "Player cards are : #{@player.hand.display_hand}\n"
         puts "Dealer showing card is: #{@dealer.show_hand} \n\n"
         print "Do you want to hit? (y or n)  > "
         hit = gets.chomp.downcase
         break if hit == 'n'
         deal_card @player
-        if @player.busted?
+        if @player.hand.busted?
           puts "#{@player.name} has busted"
           @winner = @dealer
           break
         end
       end
 
-      loop do
-        if @dealer.play_turn == 'hit'
+      done = false
+      while !done
+        if @dealer.hit? 
           deal_card @dealer
+        else
+          done = true
         end
-        if @dealer.busted?
-          "#{@dealer.name} has busted"
-          @winner = @player
-        end
-        break if @dealer.done
-        
       end
-
-      if @player.show_value > @dealer.show_value
+      if @dealer.hand.busted?
+        puts "#{@dealer.name} has busted"
         @winner = @player
-      else
-        @winner = @dealer
       end
 
-      puts "Winner is #{@winner.name}"
+      if @winner == 'none'
+        if @player.hand.value > @dealer.hand.value
+          @winner = @player
+        elsif @player.hand.value < @dealer.hand.value
+          @winner = @dealer
+        end
+      end
+
+      puts "\nPlayer #{@player.name} had #{@player.hand.value}"
+      puts "Dealer #{@dealer.name} had #{@dealer.hand.value}"
+      if @winner == 'none'
+        puts "This hand is a draw - no winners this time around!"
+      else
+        puts "Winner is #{@winner.name}"
+      end
+
       print "Do you want to play another hand? (y or n) > "
       @wants_to_play = gets.chomp.downcase
 
