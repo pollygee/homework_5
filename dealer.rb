@@ -13,7 +13,7 @@ class Dealer < Player
   end
 
   def hit?
-    @hand.value < 18
+    @hand.value < 17
   end
 
 end

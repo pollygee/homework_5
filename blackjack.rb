@@ -42,48 +42,55 @@ class Blackjack
 
       if @player.hand.blackjack? 
         @winner = @player
+        system "clear"
+        puts "\n#{@player.name} had blackjack - that's an automatic win!"
       elsif @dealer.hand.blackjack?
         @winner = @dealer
-      end
-
-      loop do
-        system("clear")
-        puts "Player cards are : #{@player.hand.display_hand}\n"
-        puts "Dealer showing card is: #{@dealer.show_hand} \n\n"
-        print "Do you want to hit? (y or n)  > "
-        hit = gets.chomp.downcase
-        break if hit == 'n'
-        deal_card @player
-        if @player.hand.busted?
-          puts "#{@player.name} has busted"
-          @winner = @dealer
-          break
-        end
-      end
-
-      done = false
-      while !done
-        if @dealer.hit? 
-          deal_card @dealer
-        else
-          done = true
-        end
-      end
-      if @dealer.hand.busted?
-        puts "#{@dealer.name} has busted"
-        @winner = @player
+        system "clear"
+        puts "\n#{@dealer.name} had blackjack - that's an automatic win"
       end
 
       if @winner == 'none'
-        if @player.hand.value > @dealer.hand.value
+        loop do
+          system("clear")
+          puts "Player cards are : #{@player.hand.display_hand}\n"
+          puts "Dealer showing card is: #{@dealer.show_hand} \n\n"
+          print "Do you want to hit? (y or n)  > "
+          hit = gets.chomp.downcase
+          break if hit == 'n'
+          deal_card @player
+          if @player.hand.busted?
+            puts "#{@player.name} has busted"
+            @winner = @dealer
+            break
+          end
+        end
+
+        done = false
+        while !done
+          if @dealer.hit? 
+            deal_card @dealer
+          else
+            done = true
+          end
+        end
+        if @dealer.hand.busted?
+          puts "#{@dealer.name} has busted"
           @winner = @player
-        elsif @player.hand.value < @dealer.hand.value
-          @winner = @dealer
+        end
+
+        if @winner == 'none'
+          if @player.hand.value > @dealer.hand.value
+            @winner = @player
+          elsif @player.hand.value < @dealer.hand.value
+            @winner = @dealer
+          end
         end
       end
 
       puts "\nPlayer #{@player.name} had #{@player.hand.value}"
       puts "Dealer #{@dealer.name} had #{@dealer.hand.value}"
+
       if @winner == 'none'
         puts "This hand is a draw - no winners this time around!"
       else
