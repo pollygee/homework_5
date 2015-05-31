@@ -42,6 +42,12 @@ class Blackjack
 
       print "You have $#{@player.wallet}, how much would you like to bet (give a whole dollar amount that does not exceed your walled)? "
       bet_amount = gets.chomp.to_i
+      while bet_amount > @player.wallet
+        put "Nice try budy, you only have #{@player.wallet} to spend, please bet a valid amount"
+        bet_amount = gets.chomp.to_i
+      end
+
+
 
       if @player.hand.blackjack? 
         @winner = @player
@@ -107,9 +113,14 @@ class Blackjack
         puts "Winner is #{@winner.name}"
       end
 
-      puts "Player wallet now $#{@player.wallet}"
+      puts "\n\nPlayer wallet now $#{@player.wallet}"
+      if @player.wallet == 0
+        puts 'You have no more moeny to spend your game is over, Goodbye!'
+        break
+      end
       print "Do you want to play another hand? (y or n) > "
       @wants_to_play = gets.chomp.downcase
+      system "clear"
     end
     puts "Blackjack Game over!  Thanks for playing!"
   end
