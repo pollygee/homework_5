@@ -26,7 +26,8 @@ class Hand
     #binding.pry
     return @hand_value
   end
-  binding.pry
+  binding.prycd 
+  
   def blackjack?
     value == 21 && @hand_cards.count == 2
   end
