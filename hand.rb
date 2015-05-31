@@ -26,7 +26,7 @@ class Hand
     #binding.pry
     return @hand_value
   end
-
+  binding.pry
   def blackjack?
     value == 21 && @hand_cards.count == 2
   end
@@ -43,7 +43,7 @@ class Hand
     display_cards = []
     @hand_cards.each do |card|
       #binding.pry
-      display_cards << card.display_card
+      display_cards << card.display_card card
     end
     #binding.pry
     return display_cards.join(", ")
