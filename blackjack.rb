@@ -110,6 +110,7 @@ end
 
 
 game = Blackjack.new 
+binding.pry
 game.start_game
 game.play_hand
 
