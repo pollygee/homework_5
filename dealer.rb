@@ -8,6 +8,7 @@ class Dealer < Player
     @hand = []
     @done = false
   end
+
   def show_hand
      @hand.first_card.display_card
   end
@@ -15,5 +16,4 @@ class Dealer < Player
   def hit?
     @hand.value < 17
   end
-
 end

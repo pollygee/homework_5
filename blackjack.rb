@@ -40,6 +40,9 @@ class Blackjack
       deal_card @dealer
       deal_card @dealer
 
+      print "You have $#{@player.wallet}, how much would you like to bet (give a whole dollar amount that does not exceed your walled)? "
+      bet_amount = gets.chomp.to_i
+
       if @player.hand.blackjack? 
         @winner = @player
         system "clear"
@@ -74,6 +77,7 @@ class Blackjack
             done = true
           end
         end
+
         if @dealer.hand.busted?
           puts "#{@dealer.name} has busted"
           @winner = @player
@@ -88,6 +92,12 @@ class Blackjack
         end
       end
 
+      if @winner == @player
+        @player.change_wallet_value  bet_amount, :give
+      elsif @winner == @dealer
+        @player.change_wallet_value bet_amount, :take
+      end
+
       puts "\nPlayer #{@player.name} had #{@player.hand.value}"
       puts "Dealer #{@dealer.name} had #{@dealer.hand.value}"
 
@@ -97,20 +107,17 @@ class Blackjack
         puts "Winner is #{@winner.name}"
       end
 
+      puts "Player wallet now $#{@player.wallet}"
       print "Do you want to play another hand? (y or n) > "
       @wants_to_play = gets.chomp.downcase
-
     end
     puts "Blackjack Game over!  Thanks for playing!"
   end
-
-
 end
 
 
 
 game = Blackjack.new 
-binding.pry
 game.start_game
 game.play_hand
 
